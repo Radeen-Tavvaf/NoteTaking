@@ -1,14 +1,10 @@
 # NoteTaking
 
-A private, browser-based note-taking app. The app is served as a static site, and note content stays in the visitor's own browser.
+A private, browser-based note-taking app. Run it locally on your own computer, and note content stays only on your device.
 
-## Open the Site
+pyrth## Setup and Usage
 
-The live site is available at:
-
-https://radeen-tavvaf.github.io/NoteTaking/
-
-To open the project locally instead:
+To use this app:
 
 1. Clone or download this repository.
 2. Open a terminal in the project folder.
@@ -20,31 +16,15 @@ python3 -m http.server 4173
 
 4. Visit http://localhost:4173/.
 
-Opening `index.html` directly may prevent some browser storage features from working correctly, so use the local server when testing locally.
+**Note:** Opening `index.html` directly may prevent some browser storage features from working correctly, so use the local server.
 
-## Local Privacy
+## Privacy
 
-Every visitor gets an independent local workspace. Notes are saved in IndexedDB, and the saved display name is stored in localStorage. Neither is sent to GitHub, a server, or another visitor.
+Your notes are completely private. They are saved only in your browser's IndexedDB and localStorage, and never sent to GitHub, a server, or anyone else.
 
-That means:
-
-- Different people can use the same live URL without seeing each other's notes.
-- Notes remain available when the same person returns on the same browser and device.
+- Notes remain available when you return on the same browser and device.
 - Different browsers or devices have separate note collections.
-- Clearing browser site data removes the local notes, so use the built-in JSON export for backups.
-
-## GitHub Pages Setup
-
-The repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml`. It deploys automatically whenever changes are pushed to `main`.
-
-If Pages has not been enabled for the repository yet:
-
-1. Open the repository on GitHub.
-2. Go to **Settings**, then **Pages**.
-3. Set the source to **GitHub Actions**.
-4. Push to `main` or run the `Deploy NoteTaking to GitHub Pages` workflow manually from the **Actions** tab.
-
-After the workflow completes, visitors can use the live site link above.
+- Clearing browser site data removes your notes, so use the built-in JSON export for backups.
 
 
 ## Features
