@@ -128,12 +128,12 @@
 
               <label>
                 <span>Size</span>
-                <input id="font-size" type="range" min="14" max="32" step="1" value="18" />
+                <input id="font-size" type="number" min="8" max="96" step="1" value="18" />
               </label>
 
               <label>
                 <span>Line height</span>
-                <input id="line-height" type="range" min="1.1" max="2" step="0.1" value="1.6" />
+                <input id="line-height" type="number" min="0.8" max="4" step="0.1" value="1.6" />
               </label>
             </div>
           </div>
@@ -150,7 +150,16 @@
           <input id="add-folder-input" class="input compact-folder-input hidden" type="text" placeholder="New folder name" />
           <label>
             <span>Tags</span>
-            <input id="tag-input" class="input" type="text" placeholder="Tags separated by commas" />
+            <input id="tag-input" class="input" type="text" list="tag-suggestions" placeholder="Tags separated by commas" />
+            <datalist id="tag-suggestions">
+              <option value="New"></option>
+              <option value="Voice Note"></option>
+              <option value="Favorite"></option>
+              <option value="Notes"></option>
+              <option value="Ideas"></option>
+              <option value="Draft"></option>
+              <option value="Archived"></option>
+            </datalist>
           </label>
           <div id="tag-list" class="tag-list"></div>
         </div>
@@ -160,13 +169,12 @@
         </div>
 
         <div class="voice-box">
+          <h2>Voice Notes</h2>
           <div class="voice-actions">
             <button id="record-btn" class="record-button" type="button">Record voice note</button>
             <button id="stop-recording" class="secondary-button hidden" type="button">Stop</button>
-            <button id="transcribe-btn" class="secondary-button" type="button">Transcribe</button>
           </div>
           <audio id="voice-player" controls class="hidden"></audio>
-          <div id="transcript-box" class="transcript-box hidden" aria-live="polite"></div>
         </div>
 
         <footer class="footer-bar">

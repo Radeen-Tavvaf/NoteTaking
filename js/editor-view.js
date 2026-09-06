@@ -103,8 +103,6 @@ export function createEditorView({ els, state, getSelectedNote, selectNote }) {
       els.voicePlayer.removeAttribute('src');
     }
 
-    els.transcriptBox.textContent = note.transcript ? `Transcript: ${note.transcript}` : '';
-    els.transcriptBox.classList.toggle('hidden', !note.transcript);
     updateReadingStats();
   }
 

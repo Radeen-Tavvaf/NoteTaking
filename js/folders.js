@@ -1,4 +1,4 @@
-export const DEFAULT_FOLDERS = ['General', 'Work', 'Personal', 'Ideas'];
+export const DEFAULT_FOLDERS = ['General', 'Work', 'Personal', 'Ideas', 'Voice Notes'];
 export const FOLDER_STORAGE_KEY = 'notetaking-custom-folders';
 
 export function getStoredFolders() {

@@ -8,9 +8,10 @@ import {
 } from './storage.js';
 import { setupVoiceTools } from './voice.js';
 import { getStoredFolders, addFolder } from './folders.js';
-import { parseTagInput } from './tags.js';
+import { DEFAULT_TAGS, normalizeTags, parseTagInput } from './tags.js';
 import { getEditorElements } from './editor-elements.js';
 import { createEditorView } from './editor-view.js';
+import { createEditorFormatting } from './editor-formatting.js';
 
 // Editor state stays local to this page; IndexedDB remains the source of persistence.
 const state = {
@@ -37,24 +38,23 @@ function toggleFolderInput() {
   }
 }
 
+function syncTagSuggestions() {
+  els.tagSuggestions.innerHTML = DEFAULT_TAGS
+    .map((tag) => `<option value="${escapeHtml(tag)}"></option>`)
+    .join('');
+}
+
 // Voice handling owns browser APIs; these callbacks connect results to the current note.
 const voiceTools = setupVoiceTools({
   getCurrentNote: () => getSelectedNote(),
   onAudioSaved: async (note) => {
+    note.folder = 'Voice Notes';
+    note.tags = normalizeTags([...(note.tags || []), 'Voice Note']);
     await saveNote(state.db, note);
     state.notes = await readAllNotes(state.db);
     fillEditorFromNote(note);
     renderNoteList();
     setStatus('Voice note saved.');
-  },
-  onTranscriptSaved: async (note, transcript) => {
-    note.transcript = transcript;
-    await saveNote(state.db, note);
-    state.notes = await readAllNotes(state.db);
-    els.transcriptBox.textContent = `Transcript: ${transcript}`;
-    els.transcriptBox.classList.remove('hidden');
-    renderNoteList();
-    setStatus('Transcript saved.');
   },
   setStatus,
 });
@@ -82,6 +82,12 @@ const {
   updateReadingStats,
   fillEditorFromNote,
 } = editorView;
+
+const editorFormatting = createEditorFormatting({
+  editor: els.editor,
+  setStatus,
+  onChange: scheduleSave,
+});
 
 function syncFolderOptions() {
   // Folder names are shared through localStorage, while note assignments live in IndexedDB.
@@ -113,8 +119,6 @@ function collectCurrentNote() {
   note.folder = els.folderSelect.value || 'General';
   note.tags = parseTagInput(els.tagInput.value);
   note.fontFamily = els.fontSelect.value;
-  note.fontSize = Number(els.fontSize.value);
-  note.lineHeight = Number(els.lineHeight.value);
   note.theme = els.themeSelect.value;
   note.updatedAt = new Date().toISOString();
 
@@ -245,21 +249,8 @@ function bindInputEvents() {
     }
   });
 
-  els.fontSize.addEventListener('input', () => {
-    const note = getSelectedNote();
-    if (!note) return;
-    note.fontSize = Number(els.fontSize.value);
-    els.editor.style.fontSize = `${note.fontSize}px`;
-    scheduleSave();
-  });
-
-  els.lineHeight.addEventListener('input', () => {
-    const note = getSelectedNote();
-    if (!note) return;
-    note.lineHeight = Number(els.lineHeight.value);
-    els.editor.style.lineHeight = note.lineHeight;
-    scheduleSave();
-  });
+  els.fontSize.addEventListener('change', () => editorFormatting.applyFontSize(els.fontSize.value));
+  els.lineHeight.addEventListener('change', () => editorFormatting.applyLineHeight(els.lineHeight.value));
 
   els.pinNote.addEventListener('click', async () => {
     const note = getSelectedNote();
@@ -386,6 +377,7 @@ async function init() {
   // Bind listeners before loading data so the first rendered note is fully interactive.
   bindToolbarCommands();
   bindInputEvents();
+  syncTagSuggestions();
 
   els.newNoteBtn.addEventListener('click', createNewNote);
   els.recordBtn.addEventListener('click', async () => {
@@ -400,7 +392,6 @@ async function init() {
     els.recordBtn.classList.remove('hidden');
     els.stopRecording.classList.add('hidden');
   });
-  els.transcribeBtn.addEventListener('click', () => voiceTools.startTranscription());
   els.exportJson.addEventListener('click', exportBackup);
   els.exportMd.addEventListener('click', () => exportNoteAsText('md'));
   els.exportTxt.addEventListener('click', () => exportNoteAsText('txt'));

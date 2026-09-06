@@ -9,7 +9,7 @@ export function createDefaultNote(overrides = {}) {
     title: 'Untitled note',
     content: '<p>Start writing here...</p>',
     folder: 'General',
-    tags: ['new'],
+    tags: ['New'],
     pinned: false,
     createdAt: now,
     updatedAt: now,
@@ -17,7 +17,6 @@ export function createDefaultNote(overrides = {}) {
     fontSize: 18,
     lineHeight: 1.6,
     theme: 'violet',
-    transcript: '',
     audioData: '',
     ...overrides,
   };

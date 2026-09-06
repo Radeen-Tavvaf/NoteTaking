@@ -1,23 +1,14 @@
 export function setupVoiceTools({
   getCurrentNote,
   onAudioSaved,
-  onTranscriptSaved,
   setStatus,
 }) {
-  // Keep recorder and recognition state private so switching notes cannot leak browser handles.
+  // Keep recorder state private so switching notes cannot leak microphone handles.
   const recordState = {
     mediaRecorder: null,
     audioChunks: [],
     stream: null,
     isRecording: false,
-    recognition: null,
-    isTranscribing: false,
-    receivedTranscript: false,
-  };
-
-  const getSpeechRecognition = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    return SpeechRecognition ? new SpeechRecognition() : null;
   };
 
   async function startRecording() {
@@ -85,64 +76,5 @@ export function setupVoiceTools({
     }
   }
 
-  function startTranscription() {
-    // SpeechRecognition is optional and browser-specific, so every run starts with capability checks.
-    if (recordState.isTranscribing) {
-      setStatus('Already listening for a transcript.');
-      return;
-    }
-
-    const recognitionInstance = getSpeechRecognition();
-    if (!recognitionInstance) {
-      setStatus('Speech-to-text is not supported in this browser.');
-      return;
-    }
-
-    recordState.recognition = recognitionInstance;
-    recordState.isTranscribing = true;
-    recordState.receivedTranscript = false;
-    recordState.recognition.continuous = false;
-    recordState.recognition.interimResults = false;
-    recordState.recognition.lang = 'en-US';
-
-    recordState.recognition.onresult = async (event) => {
-      const transcript = Array.from(event.results)
-        .map((result) => result[0]?.transcript || '')
-        .join(' ')
-        .trim();
-
-      if (!transcript) return;
-
-      recordState.receivedTranscript = true;
-
-      const note = getCurrentNote();
-      if (!note) return;
-      note.transcript = transcript;
-      note.updatedAt = new Date().toISOString();
-      await onTranscriptSaved(note, transcript);
-    };
-
-    recordState.recognition.onerror = (event) => {
-      recordState.isTranscribing = false;
-      console.error(event.error);
-      setStatus('Transcription failed. Please try again.');
-    };
-
-    recordState.recognition.onend = () => {
-      recordState.isTranscribing = false;
-      if (!recordState.receivedTranscript) {
-        setStatus('No speech detected. Please try again.');
-      }
-    };
-
-    try {
-      recordState.recognition.start();
-      setStatus('Listening for transcript...');
-    } catch (error) {
-      recordState.isTranscribing = false;
-      setStatus('The microphone is already in use. Please try again.');
-    }
-  }
-
-  return { startRecording, stopRecording, startTranscription };
+  return { startRecording, stopRecording };
 }

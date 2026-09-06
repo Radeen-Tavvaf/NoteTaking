@@ -487,15 +487,6 @@ input:focus, select:focus {
   display: flex;
 }
 
-.transcript-box {
-  background: rgba(109,94,252,0.06);
-  border: 1px dashed var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  color: var(--muted);
-  min-height: 50px;
-}
-
 .footer-bar {
   display: flex;
   justify-content: space-between;

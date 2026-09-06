@@ -14,7 +14,6 @@ export function filterAndSortNotes(notes, {
       note.title,
       note.contentText,
       note.content,
-      note.transcript,
       normalizeTags(note.tags).join(' '),
     ].join(' ').toLowerCase();
 

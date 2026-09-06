@@ -1,3 +1,6 @@
+// These suggestions keep the most common labels consistent and properly capitalized.
+export const DEFAULT_TAGS = ['New', 'Voice Note', 'Favorite', 'Notes', 'Ideas', 'Draft', 'Archived'];
+
 // Keep tag values predictable across editing, filtering, imports, and legacy notes.
 export function normalizeTags(tags = []) {
   const values = Array.isArray(tags) ? tags : String(tags).split(',');

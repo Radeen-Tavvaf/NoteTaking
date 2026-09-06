@@ -8,20 +8,20 @@ Writing & editing
 
 Rich text editor (bold, italic, headers, lists, checkboxes for to-dos)
 Font picker — a handful of curated fonts (serif for long-form, sans for clean notes, monospace for code snippets, maybe a handwriting-style font for a personal touch)
-Adjustable font size and line spacing
+Selection-based font size and line spacing controls with numeric values
 Light/dark mode, maybe a few accent color themes
 
 Voice notes
 
 Record audio directly in-browser (Web Audio API / MediaRecorder API)
 Playback controls attached to each note
-Optional: live transcription using the Web Speech API, so voice notes become searchable text too
+Recordings are automatically organized in the Voice Notes folder and tagged Voice Note
 
 Organization
 
 -Folders or tags/labels. Notes can have multiple comma-separated tags.
 Pinning important notes
-Search across all notes (including transcribed voice content)
+Search across all note names, text, and tags
 -Include or exclude notes by tag, then sort by date, title, tag name, tag count, or pin status
 
 Local storage & data
@@ -42,4 +42,4 @@ Tech Stack Suggestion
 Frontend: React (or vanilla JS if you want to show fundamentals)
 Storage: IndexedDB for structured data + audio blobs, since localStorage has size limits and can't hold binary audio well
 Styling: Tailwind CSS for speed, or handcrafted CSS to show design chops
-Voice: MediaRecorder API for capture, Web Speech API for optional transcription
+Voice: MediaRecorder API for capture and playback
