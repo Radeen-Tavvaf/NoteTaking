@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NoteTaking Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Patrick+Hand&family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body data-theme="violet">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-card">
+          <div class="brand-badge">N</div>
+          <div>
+            <h1>NoteTaking</h1>
+            <small>Private notes on-device</small>
+          </div>
+        </div>
+
+        <a href="index.html" class="button" style="display: inline-block; text-align: center;">Home</a>
+        <button id="new-note-btn" class="button" type="button">+ New note</button>
+
+        <div class="sidebar-section">
+          <label class="search-box" for="search-input">
+            <span>Search</span>
+            <input id="search-input" class="input" type="search" placeholder="Search notes..." />
+          </label>
+        </div>
+
+        <div class="sidebar-section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <label>
+            <span>Folder</span>
+            <select id="folder-filter">
+              <option value="all">All folders</option>
+              <option value="General">General</option>
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Ideas">Ideas</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Sort</span>
+            <select id="sort-select">
+              <option value="updated-desc">Updated</option>
+              <option value="created-desc">Created</option>
+              <option value="alpha">A–Z</option>
+              <option value="tags-alpha">Tags A–Z</option>
+              <option value="tags-count">Most tags</option>
+              <option value="pinned">Pinned</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="sidebar-section tag-filter-section">
+          <label>
+            <span>Include tags</span>
+            <input id="include-tags" class="input" type="text" placeholder="research, draft" />
+          </label>
+          <label>
+            <span>Exclude tags</span>
+            <input id="exclude-tags" class="input" type="text" placeholder="archived, private" />
+          </label>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="section-header">
+            <span>Notes</span>
+            <span id="note-count" class="muted-badge">0</span>
+          </div>
+          <div id="note-list" class="note-list" aria-live="polite"></div>
+        </div>
+      </aside>
+
+      <main class="content-panel">
+        <div class="privacy-banner">Your notes never leave your device.</div>
+
+        <div class="editor-shell">
+          <header class="topbar">
+            <input id="note-title" type="text" placeholder="Untitled note" aria-label="Note title" />
+            <div class="quick-actions">
+              <button id="toggle-focus" class="secondary-button" type="button">Focus mode</button>
+              <button id="pin-note" class="secondary-button" type="button">Pin</button>
+            </div>
+          </header>
+
+          <div class="toolbar-row">
+            <div class="toolbar-group">
+              <button class="toolbar-button" data-command="bold" type="button"><strong>B</strong></button>
+              <button class="toolbar-button" data-command="italic" type="button"><em>I</em></button>
+              <button class="toolbar-button" data-command="underline" type="button"><span style="text-decoration: underline;">U</span></button>
+              <button class="toolbar-button" data-command="insertUnorderedList" type="button">• List</button>
+              <button class="toolbar-button" data-command="insertOrderedList" type="button">1. List</button>
+              <button class="toolbar-button" data-command="formatBlock" data-value="h1" type="button">H1</button>
+              <button class="toolbar-button" data-command="formatBlock" data-value="h2" type="button">H2</button>
+              <button class="toolbar-button" data-command="insertHorizontalRule" type="button">—</button>
+            </div>
+
+            <div class="toolbar-group">
+              <label>
+                <span>Theme</span>
+                <select id="theme-select">
+                  <option value="violet">Violet</option>
+                  <option value="teal">Teal</option>
+                  <option value="gold">Gold</option>
+                  <option value="rose">Rose</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Font</span>
+                <select id="font-select">
+                  <option value="Inter, sans-serif">Inter</option>
+                  <option value="Georgia, serif">Georgia</option>
+                  <option value='"JetBrains Mono", monospace'>JetBrains Mono</option>
+                  <option value='"Patrick Hand", cursive'>Patrick Hand</option>
+                  <option value='"Playfair Display", serif'>Playfair Display</option>
+                  <option value='"Montserrat", sans-serif'>Montserrat</option>
+                  <option value='"Cormorant Garamond", serif'>Cormorant Garamond</option>
+                  <option value='"DM Serif Text", serif'>DM Serif Text</option>
+                  <option value='"Libre Baskerville", serif'>Libre Baskerville</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Size</span>
+                <input id="font-size" type="range" min="14" max="32" step="1" value="18" />
+              </label>
+
+              <label>
+                <span>Line height</span>
+                <input id="line-height" type="range" min="1.1" max="2" step="0.1" value="1.6" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-config">
+          <label style="flex: 1; min-width: 180px;">
+            <span>Folder</span>
+            <div class="folder-inline-row">
+              <select id="folder-select" class="input"></select>
+              <button id="add-folder-btn" class="secondary-button compact-button" type="button" title="Add custom folder">+</button>
+            </div>
+          </label>
+          <input id="add-folder-input" class="input compact-folder-input hidden" type="text" placeholder="New folder name" />
+          <label>
+            <span>Tags</span>
+            <input id="tag-input" class="input" type="text" placeholder="Tags separated by commas" />
+          </label>
+          <div id="tag-list" class="tag-list"></div>
+        </div>
+
+        <div class="editor-wrap">
+          <div id="editor" class="editor" contenteditable="true" spellcheck="true"></div>
+        </div>
+
+        <div class="voice-box">
+          <div class="voice-actions">
+            <button id="record-btn" class="record-button" type="button">Record voice note</button>
+            <button id="stop-recording" class="secondary-button hidden" type="button">Stop</button>
+            <button id="transcribe-btn" class="secondary-button" type="button">Transcribe</button>
+          </div>
+          <audio id="voice-player" controls class="hidden"></audio>
+          <div id="transcript-box" class="transcript-box hidden" aria-live="polite"></div>
+        </div>
+
+        <footer class="footer-bar">
+          <div class="stats">
+            <span id="word-count">0 words</span>
+            <span id="character-count">0 characters</span>
+            <span id="reading-time">0 min read</span>
+            <span id="save-status">Autosaved locally</span>
+          </div>
+
+          <div class="export-actions">
+            <button id="export-json" class="secondary-button" type="button">Export JSON</button>
+            <button id="export-md" class="secondary-button" type="button">Export .md</button>
+            <button id="export-txt" class="secondary-button" type="button">Export .txt</button>
+            <button id="export-pdf" class="secondary-button" type="button">Export PDF</button>
+            <button id="import-btn" class="secondary-button" type="button">Import</button>
+            <input id="import-json" type="file" accept="application/json" class="hidden" />
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <script type="module" src="js/editor.js"></script>
+  </body>
+</html>

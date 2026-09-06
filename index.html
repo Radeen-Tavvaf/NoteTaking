@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NoteTaking | Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@400;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="home-body" data-theme="violet">
+    <main class="home-page">
+      <section class="home-panel">
+        <header class="home-header">
+          <div class="brand-card">
+            <div class="brand-badge">N</div>
+            <div>
+              <h1>NoteTaking</h1>
+              <small>Private notes on your device</small>
+            </div>
+          </div>
+          <div class="home-actions">
+            <button id="new-note-btn" class="button" type="button">+ New note</button>
+            <a href="editor.html" class="secondary-button">Open editor</a>
+          </div>
+        </header>
+
+        <div class="summary-row">
+          <div class="summary-card">
+            <strong id="note-count">0</strong>
+            <span>Total notes</span>
+          </div>
+          <div class="summary-card">
+            <strong id="pinned-count">0</strong>
+            <span>Pinned</span>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <label class="search-box" style="min-width: 280px; flex: 1;">
+            <span>Search notes</span>
+            <input id="search-input" class="input" type="search" placeholder="Search by title, text, or tags..." />
+          </label>
+
+          <label style="flex:1; min-width: 220px;">
+            <span>Folder</span>
+            <div class="folder-inline-row">
+              <select id="folder-filter" class="input"></select>
+              <button id="add-folder-btn" class="secondary-button compact-button" type="button" title="Add custom folder">+</button>
+            </div>
+          </label>
+
+          <label>
+            <span>Sort</span>
+            <select id="sort-select" class="input">
+              <option value="updated-desc">Updated</option>
+              <option value="created">Created</option>
+              <option value="alpha">A–Z</option>
+              <option value="tags-alpha">Tags A–Z</option>
+              <option value="tags-count">Most tags</option>
+              <option value="pinned">Pinned</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="filter-row tag-filter-row">
+          <label style="flex: 1; min-width: 220px;">
+            <span>Include tags</span>
+            <input id="include-tags" class="input" type="text" placeholder="research, draft" />
+          </label>
+          <label style="flex: 1; min-width: 220px;">
+            <span>Exclude tags</span>
+            <input id="exclude-tags" class="input" type="text" placeholder="archived, private" />
+          </label>
+        </div>
+
+        <input id="add-folder-input" class="input compact-folder-input hidden" type="text" placeholder="New folder name" />
+
+        <div id="notes-grid" class="note-grid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script type="module" src="js/home.js"></script>
+  </body>
+</html>

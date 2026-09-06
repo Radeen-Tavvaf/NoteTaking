@@ -19,10 +19,10 @@ Optional: live transcription using the Web Speech API, so voice notes become sea
 
 Organization
 
-Folders or tags/labels
+-Folders or tags/labels. Notes can have multiple comma-separated tags.
 Pinning important notes
 Search across all notes (including transcribed voice content)
-Sort by date created, date edited, or alphabetically
+-Include or exclude notes by tag, then sort by date, title, tag name, tag count, or pin status
 
 Local storage & data
 
