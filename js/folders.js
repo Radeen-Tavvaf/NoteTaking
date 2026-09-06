@@ -1,7 +1,8 @@
-export const DEFAULT_FOLDERS = ['General', 'Work', 'Personal', 'Ideas', 'Voice Notes'];
+export const DEFAULT_FOLDERS = ['General', 'Work', 'Personal', 'Ideas'];
 export const FOLDER_STORAGE_KEY = 'notetaking-custom-folders';
 
 export function getStoredFolders() {
+  // Built-in folders are always available; custom folders are restored from localStorage.
   try {
     const raw = localStorage.getItem(FOLDER_STORAGE_KEY);
     const customFolders = raw ? JSON.parse(raw) : [];
@@ -23,6 +24,7 @@ export function saveFolders(folders) {
 }
 
 export function addFolder(name) {
+  // Folder names are compared case-insensitively to prevent near-duplicate choices.
   const trimmed = String(name || '').trim();
   if (!trimmed) return null;
 

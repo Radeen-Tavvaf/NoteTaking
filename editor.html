@@ -11,6 +11,7 @@
   </head>
   <body data-theme="violet">
     <div class="app-shell">
+      <!-- The sidebar handles navigation and filtering without leaving the editor. -->
       <aside class="sidebar">
         <div class="brand-card">
           <div class="brand-badge">N</div>
@@ -78,6 +79,7 @@
       <main class="content-panel">
         <div class="privacy-banner">Your notes never leave your device.</div>
 
+        <!-- Toolbar controls affect the selected note or selected editor content. -->
         <div class="editor-shell">
           <header class="topbar">
             <input id="note-title" type="text" placeholder="Untitled note" aria-label="Note title" />
@@ -139,6 +141,7 @@
           </div>
         </div>
 
+        <!-- Metadata is stored alongside the note body in IndexedDB. -->
         <div class="note-config">
           <label style="flex: 1; min-width: 180px;">
             <span>Folder</span>
@@ -153,7 +156,6 @@
             <input id="tag-input" class="input" type="text" list="tag-suggestions" placeholder="Tags separated by commas" />
             <datalist id="tag-suggestions">
               <option value="New"></option>
-              <option value="Voice Note"></option>
               <option value="Favorite"></option>
               <option value="Notes"></option>
               <option value="Ideas"></option>
@@ -164,19 +166,12 @@
           <div id="tag-list" class="tag-list"></div>
         </div>
 
+        <!-- editor.js owns the editable HTML and autosaves changes after a short delay. -->
         <div class="editor-wrap">
           <div id="editor" class="editor" contenteditable="true" spellcheck="true"></div>
         </div>
 
-        <div class="voice-box">
-          <h2>Voice Notes</h2>
-          <div class="voice-actions">
-            <button id="record-btn" class="record-button" type="button">Record voice note</button>
-            <button id="stop-recording" class="secondary-button hidden" type="button">Stop</button>
-          </div>
-          <audio id="voice-player" controls class="hidden"></audio>
-        </div>
-
+        <!-- Export and import actions operate on the selected note or the full backup. -->
         <footer class="footer-bar">
           <div class="stats">
             <span id="word-count">0 words</span>

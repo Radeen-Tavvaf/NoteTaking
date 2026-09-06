@@ -1,5 +1,6 @@
 // Keep the editor's DOM dependencies in one place so feature modules stay readable.
 export function getEditorElements() {
+  // Keeping selectors here makes the coordinator independent from raw DOM lookup details.
   return {
     noteList: document.getElementById('note-list'),
     noteCount: document.getElementById('note-count'),
@@ -27,9 +28,6 @@ export function getEditorElements() {
     characterCount: document.getElementById('character-count'),
     readTime: document.getElementById('reading-time'),
     saveStatus: document.getElementById('save-status'),
-    recordBtn: document.getElementById('record-btn'),
-    stopRecording: document.getElementById('stop-recording'),
-    voicePlayer: document.getElementById('voice-player'),
     exportJson: document.getElementById('export-json'),
     exportMd: document.getElementById('export-md'),
     exportTxt: document.getElementById('export-txt'),

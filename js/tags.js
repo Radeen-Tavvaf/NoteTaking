@@ -1,5 +1,5 @@
 // These suggestions keep the most common labels consistent and properly capitalized.
-export const DEFAULT_TAGS = ['New', 'Voice Note', 'Favorite', 'Notes', 'Ideas', 'Draft', 'Archived'];
+export const DEFAULT_TAGS = ['New', 'Favorite', 'Notes', 'Ideas', 'Draft', 'Archived'];
 
 // Keep tag values predictable across editing, filtering, imports, and legacy notes.
 export function normalizeTags(tags = []) {
@@ -17,10 +17,12 @@ export function normalizeTags(tags = []) {
 }
 
 export function parseTagInput(value) {
+  // The editor stores tags as an array even though the input is comma-separated text.
   return normalizeTags(String(value || '').split(','));
 }
 
 export function tagsMatch(note, includeTags = [], excludeTags = []) {
+  // Inclusion is AND; exclusion rejects a note when any excluded tag is present.
   const noteTags = new Set(normalizeTags(note.tags).map((tag) => tag.toLowerCase()));
   const includes = normalizeTags(includeTags).map((tag) => tag.toLowerCase());
   const excludes = normalizeTags(excludeTags).map((tag) => tag.toLowerCase());

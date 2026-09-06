@@ -14,9 +14,11 @@ const state = {
   sort: 'updated-desc',
 };
 
+const USER_NAME_KEY = 'notetaking-user-name';
+
 const els = {
   noteCount: document.getElementById('note-count'),
-  pinnedCount: document.getElementById('pinned-count'),
+  userName: document.getElementById('user-name'),
   searchInput: document.getElementById('search-input'),
   folderFilter: document.getElementById('folder-filter'),
   sortSelect: document.getElementById('sort-select'),
@@ -28,6 +30,7 @@ const els = {
   addFolderBtn: document.getElementById('add-folder-btn'),
 };
 
+// The name is a page preference, not note data, so localStorage is enough here.
 function toggleFolderInput() {
   const isHidden = els.addFolderInput.classList.contains('hidden');
   els.addFolderInput.classList.toggle('hidden', !isHidden);
@@ -39,12 +42,16 @@ function toggleFolderInput() {
 }
 
 function renderSummary() {
-  // Summary counts describe the full collection, not only the filtered grid.
+  // The total note count describes the full collection, not only the filtered grid.
   els.noteCount.textContent = String(state.notes.length);
-  els.pinnedCount.textContent = String(state.notes.filter((note) => note.pinned).length);
+}
+
+function loadUserName() {
+  els.userName.value = localStorage.getItem(USER_NAME_KEY) || '';
 }
 
 function syncFolderOptions() {
+  // Folder choices are shared with the editor through the folders module.
   const folders = getStoredFolders();
   const current = state.filter;
   const html = folders
@@ -121,6 +128,7 @@ async function loadData() {
   // IndexedDB is opened before the first render so the empty state is meaningful.
   state.db = await openDatabase();
   state.notes = await readAllNotes(state.db);
+  loadUserName();
   syncFolderOptions();
   renderNotes();
 }
@@ -167,5 +175,9 @@ els.addFolderBtn.addEventListener('click', () => {
 });
 
 els.newNoteBtn.addEventListener('click', createNoteAndOpen);
+
+els.userName.addEventListener('input', (event) => {
+  localStorage.setItem(USER_NAME_KEY, event.target.value.trim());
+});
 
 loadData();

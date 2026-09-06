@@ -1,5 +1,6 @@
 // Apply typography to the selected content instead of changing the whole editor surface.
 export function createEditorFormatting({ editor, setStatus, onChange }) {
+  // Browser controls can steal focus, so the last editor selection is saved and restored.
   let savedRange = null;
 
   function selectionIsInEditor(selection) {
@@ -24,6 +25,7 @@ export function createEditorFormatting({ editor, setStatus, onChange }) {
   }
 
   function getSelectedBlocks(range) {
+    // Line height belongs to block elements, unlike font size which can target text spans.
     const blockTags = new Set(['ADDRESS', 'BLOCKQUOTE', 'DIV', 'H1', 'H2', 'H3', 'LI', 'OL', 'P', 'PRE', 'UL']);
     const blocks = [];
     const walker = document.createTreeWalker(editor, NodeFilter.SHOW_ELEMENT);
@@ -70,6 +72,7 @@ export function createEditorFormatting({ editor, setStatus, onChange }) {
     setStatus(`Selected paragraph line height set to ${value}.`);
   }
 
+  // Selection changes are global browser events, but only editor selections are retained.
   document.addEventListener('selectionchange', rememberSelection);
 
   return { applyFontSize, applyLineHeight };

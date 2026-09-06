@@ -11,12 +11,6 @@ Font picker — a handful of curated fonts (serif for long-form, sans for clean 
 Selection-based font size and line spacing controls with numeric values
 Light/dark mode, maybe a few accent color themes
 
-Voice notes
-
-Record audio directly in-browser (Web Audio API / MediaRecorder API)
-Playback controls attached to each note
-Recordings are automatically organized in the Voice Notes folder and tagged Voice Note
-
 Organization
 
 -Folders or tags/labels. Notes can have multiple comma-separated tags.
@@ -40,6 +34,5 @@ Keyboard shortcuts for power users
 A minimalist, distraction-free "focus mode"
 Tech Stack Suggestion
 Frontend: React (or vanilla JS if you want to show fundamentals)
-Storage: IndexedDB for structured data + audio blobs, since localStorage has size limits and can't hold binary audio well
+Storage: IndexedDB for structured note data
 Styling: Tailwind CSS for speed, or handcrafted CSS to show design chops
-Voice: MediaRecorder API for capture and playback

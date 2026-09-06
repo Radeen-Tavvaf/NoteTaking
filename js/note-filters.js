@@ -9,6 +9,7 @@ export function filterAndSortNotes(notes, {
   sort = 'updated-desc',
 } = {}) {
   const searchTerm = search.trim().toLowerCase();
+  // Search, folder, and tag rules are evaluated before any sort is applied.
   const visible = notes.filter((note) => {
     const haystack = [
       note.title,
@@ -23,6 +24,7 @@ export function filterAndSortNotes(notes, {
   });
 
   return visible.sort((first, second) => {
+    // Sorting is centralized so home and editor always present notes in the same order.
     const firstTags = normalizeTags(first.tags).join(', ').toLowerCase();
     const secondTags = normalizeTags(second.tags).join(', ').toLowerCase();
 

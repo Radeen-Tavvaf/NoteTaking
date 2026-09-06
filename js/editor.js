@@ -6,9 +6,8 @@ import {
   escapeHtml,
   createDefaultNote,
 } from './storage.js';
-import { setupVoiceTools } from './voice.js';
 import { getStoredFolders, addFolder } from './folders.js';
-import { DEFAULT_TAGS, normalizeTags, parseTagInput } from './tags.js';
+import { DEFAULT_TAGS, parseTagInput } from './tags.js';
 import { getEditorElements } from './editor-elements.js';
 import { createEditorView } from './editor-view.js';
 import { createEditorFormatting } from './editor-formatting.js';
@@ -28,6 +27,7 @@ const state = {
 
 const els = getEditorElements();
 
+// Folder input is hidden until the user chooses to create a custom folder.
 function toggleFolderInput() {
   const isHidden = els.addFolderInput.classList.contains('hidden');
   els.addFolderInput.classList.toggle('hidden', !isHidden);
@@ -39,25 +39,11 @@ function toggleFolderInput() {
 }
 
 function syncTagSuggestions() {
+  // Datalist suggestions come from the same canonical list used by the tag utilities.
   els.tagSuggestions.innerHTML = DEFAULT_TAGS
     .map((tag) => `<option value="${escapeHtml(tag)}"></option>`)
     .join('');
 }
-
-// Voice handling owns browser APIs; these callbacks connect results to the current note.
-const voiceTools = setupVoiceTools({
-  getCurrentNote: () => getSelectedNote(),
-  onAudioSaved: async (note) => {
-    note.folder = 'Voice Notes';
-    note.tags = normalizeTags([...(note.tags || []), 'Voice Note']);
-    await saveNote(state.db, note);
-    state.notes = await readAllNotes(state.db);
-    fillEditorFromNote(note);
-    renderNoteList();
-    setStatus('Voice note saved.');
-  },
-  setStatus,
-});
 
 function setStatus(message) {
   els.saveStatus.textContent = message;
@@ -72,6 +58,7 @@ const editorView = createEditorView({
   state,
   getSelectedNote,
   selectNote,
+  setStatus,
 });
 
 const {
@@ -83,6 +70,7 @@ const {
   fillEditorFromNote,
 } = editorView;
 
+// Formatting remembers the editor selection while the user interacts with numeric controls.
 const editorFormatting = createEditorFormatting({
   editor: els.editor,
   setStatus,
@@ -143,6 +131,7 @@ function scheduleSave() {
 }
 
 async function createNewNote() {
+  // New notes are persisted before navigation so the editor can open them by id.
   const note = createDefaultNote();
   await saveNote(state.db, note);
   state.notes = await readAllNotes(state.db);
@@ -159,6 +148,7 @@ async function selectNote(id) {
 }
 
 async function loadNotes() {
+  // Load existing notes, create the first note when needed, then honor an id in the URL.
   state.db = await openDatabase();
   state.notes = await readAllNotes(state.db);
   if (!state.notes.length) {
@@ -179,6 +169,7 @@ async function loadNotes() {
 }
 
 function bindToolbarCommands() {
+  // Native editing commands keep the toolbar small while preserving browser editing behavior.
   document.querySelectorAll('[data-command]').forEach((button) => {
     button.addEventListener('click', () => {
       const command = button.dataset.command;
@@ -270,6 +261,7 @@ function bindInputEvents() {
 }
 
 function handleShortcuts(event) {
+  // Keyboard shortcuts mirror the most common toolbar actions for faster writing.
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'b') {
     event.preventDefault();
     document.execCommand('bold');
@@ -312,6 +304,7 @@ function exportNoteAsText(type) {
 }
 
 function exportBackup() {
+  // A JSON backup preserves every note field for manual device-to-device transfer.
   const payload = JSON.stringify(state.notes, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -324,6 +317,7 @@ function exportBackup() {
 }
 
 function exportPdf() {
+  // PDF export uses the browser print dialog so no server or PDF library is required.
   const note = getSelectedNote();
   if (!note) return;
   const win = window.open('', '_blank');
@@ -380,18 +374,6 @@ async function init() {
   syncTagSuggestions();
 
   els.newNoteBtn.addEventListener('click', createNewNote);
-  els.recordBtn.addEventListener('click', async () => {
-    const started = await voiceTools.startRecording();
-    if (started) {
-      els.recordBtn.classList.add('hidden');
-      els.stopRecording.classList.remove('hidden');
-    }
-  });
-  els.stopRecording.addEventListener('click', () => {
-    voiceTools.stopRecording();
-    els.recordBtn.classList.remove('hidden');
-    els.stopRecording.classList.add('hidden');
-  });
   els.exportJson.addEventListener('click', exportBackup);
   els.exportMd.addEventListener('click', () => exportNoteAsText('md'));
   els.exportTxt.addEventListener('click', () => exportNoteAsText('txt'));

@@ -12,6 +12,7 @@
   <body class="home-body" data-theme="violet">
     <main class="home-page">
       <section class="home-panel">
+        <!-- The home header provides the app identity and the two primary navigation actions. -->
         <header class="home-header">
           <div class="brand-card">
             <div class="brand-badge">N</div>
@@ -26,17 +27,19 @@
           </div>
         </header>
 
+        <!-- Personal display settings and the collection total are kept above the filters. -->
         <div class="summary-row">
+          <div class="summary-card">
+            <label for="user-name" class="summary-label">Your name</label>
+            <input id="user-name" class="input" type="text" placeholder="Enter your name" autocomplete="name" />
+          </div>
           <div class="summary-card">
             <strong id="note-count">0</strong>
             <span>Total notes</span>
           </div>
-          <div class="summary-card">
-            <strong id="pinned-count">0</strong>
-            <span>Pinned</span>
-          </div>
         </div>
 
+        <!-- Search remains text-based while folder and sort controls narrow the collection. -->
         <div class="filter-row">
           <label class="search-box" style="min-width: 280px; flex: 1;">
             <span>Search notes</span>
@@ -64,6 +67,7 @@
           </label>
         </div>
 
+        <!-- Tag filters accept comma-separated values for include-all and exclude-any rules. -->
         <div class="filter-row tag-filter-row">
           <label style="flex: 1; min-width: 220px;">
             <span>Include tags</span>
@@ -77,6 +81,7 @@
 
         <input id="add-folder-input" class="input compact-folder-input hidden" type="text" placeholder="New folder name" />
 
+        <!-- home.js rebuilds this region whenever state or a filter changes. -->
         <div id="notes-grid" class="note-grid" aria-live="polite"></div>
       </section>
     </main>

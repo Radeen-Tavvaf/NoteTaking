@@ -17,7 +17,6 @@ export function createDefaultNote(overrides = {}) {
     fontSize: 18,
     lineHeight: 1.6,
     theme: 'violet',
-    audioData: '',
     ...overrides,
   };
 }
@@ -40,6 +39,7 @@ export function openDatabase() {
 }
 
 export function readAllNotes(db) {
+  // Reads return plain note objects so each page can apply its own view filters.
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readonly');
     const store = tx.objectStore(STORE_NAME);
@@ -62,6 +62,7 @@ export function getNoteById(db, noteId) {
 }
 
 export function saveNote(db, note) {
+  // IndexedDB put handles both new notes and updates using the note id.
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const store = tx.objectStore(STORE_NAME);
@@ -91,6 +92,7 @@ export function stripHtml(html = '') {
 }
 
 export function downloadBlob(blob, filename) {
+  // Temporary object URLs let the browser download generated exports locally.
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;

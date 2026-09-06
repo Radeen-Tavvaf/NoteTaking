@@ -3,7 +3,8 @@ import { filterAndSortNotes } from './note-filters.js';
 import { normalizeTags } from './tags.js';
 
 // Rendering is isolated from persistence and event wiring to keep editor.js focused on coordination.
-export function createEditorView({ els, state, getSelectedNote, selectNote }) {
+export function createEditorView({ els, state, getSelectedNote, selectNote, setStatus }) {
+  // The view receives state accessors instead of owning persistence or event listeners.
   function getVisibleNotes() {
     return filterAndSortNotes(state.notes, {
       search: state.searchTerm,
@@ -15,6 +16,7 @@ export function createEditorView({ els, state, getSelectedNote, selectNote }) {
   }
 
   function renderTagList(tags = []) {
+    // Re-rendering chips avoids stale labels after a comma-separated tag edit.
     els.tagList.innerHTML = '';
     normalizeTags(tags).forEach((tag) => {
       const chip = document.createElement('span');
@@ -25,6 +27,7 @@ export function createEditorView({ els, state, getSelectedNote, selectNote }) {
   }
 
   function renderNoteList() {
+    // The sidebar is derived entirely from the shared filtering module and current state.
     const notes = getVisibleNotes();
     els.noteCount.textContent = `${notes.length}`;
     els.noteList.innerHTML = '';
@@ -64,6 +67,7 @@ export function createEditorView({ els, state, getSelectedNote, selectNote }) {
   }
 
   function applyEditorStyles(note) {
+    // These are note defaults; selected text can add its own inline typography later.
     if (!note) return;
     els.editor.style.fontFamily = note.fontFamily || 'Inter, sans-serif';
     els.editor.style.fontSize = `${note.fontSize || 18}px`;
@@ -82,6 +86,7 @@ export function createEditorView({ els, state, getSelectedNote, selectNote }) {
   }
 
   function fillEditorFromNote(note) {
+    // Loading a note updates every editor control before the note list is refreshed.
     if (!note) return;
     els.noteTitle.value = note.title || '';
     els.editor.innerHTML = note.content || '<p>Start writing here...</p>';
@@ -94,14 +99,6 @@ export function createEditorView({ els, state, getSelectedNote, selectNote }) {
     els.pinNote.textContent = note.pinned ? 'Unpin' : 'Pin';
     renderTagList(note.tags);
     applyEditorStyles(note);
-
-    if (note.audioData) {
-      els.voicePlayer.src = note.audioData;
-      els.voicePlayer.classList.remove('hidden');
-    } else {
-      els.voicePlayer.classList.add('hidden');
-      els.voicePlayer.removeAttribute('src');
-    }
 
     updateReadingStats();
   }
