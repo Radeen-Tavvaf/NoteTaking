@@ -69,7 +69,7 @@ html, body {
   margin: 0;
   min-height: 100%;
   font-family: 'Inter', sans-serif;
-  background: var(--bg);
+  background: var(--site-background, var(--bg));
   color: var(--text);
 }
 
@@ -363,6 +363,97 @@ select:focus {
 
 .toolbar-group {
   flex-wrap: wrap;
+}
+
+.site-background-control input[type='color'] {
+  width: 54px;
+  height: 38px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.palette-control {
+  position: relative;
+}
+
+.palette-trigger {
+  min-width: 38px;
+  padding: 7px 10px;
+}
+
+.text-color-icon,
+.highlight-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.text-color-icon {
+  border-bottom: 3px solid var(--text);
+}
+
+.highlight-icon {
+  background: linear-gradient(transparent 52%, #fff2cc 52%);
+}
+
+.color-palette {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 28px);
+  gap: 5px;
+  width: 244px;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-strong);
+  box-shadow: 0 12px 28px rgba(31, 35, 53, 0.2);
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(70, 76, 100, 0.22);
+  border-radius: 5px;
+  background: var(--swatch-color);
+  color: var(--swatch-color, var(--text));
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.75);
+}
+
+.color-swatch:hover,
+.color-swatch:focus-visible {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.color-swatch-reset {
+  color: var(--text);
+  background: linear-gradient(135deg, transparent 43%, var(--danger) 44%, var(--danger) 56%, transparent 57%), var(--panel-strong);
+}
+
+.highlight-swatch-reset {
+  background: linear-gradient(135deg, transparent 43%, var(--danger) 44%, var(--danger) 56%, transparent 57%), var(--panel-strong);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .toolbar-button {

@@ -24,6 +24,7 @@ export function getEditorElements() {
     fontSelect: document.getElementById('font-select'),
     fontSize: document.getElementById('font-size'),
     lineHeight: document.getElementById('line-height'),
+    siteBackground: document.getElementById('site-background'),
     wordCount: document.getElementById('word-count'),
     characterCount: document.getElementById('character-count'),
     readTime: document.getElementById('reading-time'),

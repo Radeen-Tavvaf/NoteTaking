@@ -2,6 +2,9 @@ import { openDatabase, readAllNotes, saveNote, deleteNote, formatDate, escapeHtm
 import { getStoredFolders, addFolder } from './folders.js';
 import { filterAndSortNotes } from './note-filters.js';
 import { normalizeTags } from './tags.js';
+import { applySiteSettings, getSiteSettings } from './site-settings.js';
+
+applySiteSettings(getSiteSettings());
 
 // Home state controls only the current view; notes remain stored in IndexedDB.
 const state = {

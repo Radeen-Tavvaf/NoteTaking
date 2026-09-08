@@ -11,6 +11,8 @@ import { DEFAULT_TAGS, parseTagInput } from './tags.js';
 import { getEditorElements } from './editor-elements.js';
 import { createEditorView } from './editor-view.js';
 import { createEditorFormatting } from './editor-formatting.js';
+import { bindEditorPalettes } from './editor-palettes.js';
+import { applySiteSettings, getSiteSettings, saveSiteSettings } from './site-settings.js';
 
 // Editor state stays local to this page; IndexedDB remains the source of persistence.
 const state = {
@@ -26,6 +28,8 @@ const state = {
 };
 
 const els = getEditorElements();
+const siteSettings = getSiteSettings();
+applySiteSettings(siteSettings);
 
 // Folder input is hidden until the user chooses to create a custom folder.
 function toggleFolderInput() {
@@ -64,7 +68,6 @@ const editorView = createEditorView({
 const {
   renderTagList,
   renderNoteList,
-  applyTheme,
   applyEditorStyles,
   updateReadingStats,
   fillEditorFromNote,
@@ -76,6 +79,8 @@ const editorFormatting = createEditorFormatting({
   setStatus,
   onChange: scheduleSave,
 });
+
+bindEditorPalettes({ formatting: editorFormatting, editor: els.editor });
 
 function syncFolderOptions() {
   // Folder names are shared through localStorage, while note assignments live in IndexedDB.
@@ -178,6 +183,7 @@ function bindToolbarCommands() {
       scheduleSave();
     });
   });
+
 }
 
 function bindInputEvents() {
@@ -233,11 +239,19 @@ function bindInputEvents() {
   els.folderSelect.addEventListener('change', scheduleSave);
   els.fontSelect.addEventListener('change', scheduleSave);
   els.themeSelect.addEventListener('change', () => {
-    const note = collectCurrentNote();
-    if (note) {
-      applyTheme(note.theme);
-      scheduleSave();
-    }
+    saveSiteSettings({
+      theme: els.themeSelect.value,
+      background: els.siteBackground.value,
+    });
+    setStatus('Site appearance updated.');
+  });
+
+  els.siteBackground.addEventListener('input', () => {
+    saveSiteSettings({
+      theme: els.themeSelect.value,
+      background: els.siteBackground.value,
+    });
+    setStatus('Site background updated.');
   });
 
   els.fontSize.addEventListener('change', () => editorFormatting.applyFontSize(els.fontSize.value));
@@ -382,6 +396,8 @@ async function init() {
   els.importJson.addEventListener('change', importBackup);
 
   await loadNotes();
+  els.themeSelect.value = siteSettings.theme;
+  els.siteBackground.value = siteSettings.background;
   setStatus('Autosaved locally');
 }
 

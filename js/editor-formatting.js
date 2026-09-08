@@ -72,8 +72,23 @@ export function createEditorFormatting({ editor, setStatus, onChange }) {
     setStatus(`Selected paragraph line height set to ${value}.`);
   }
 
+  function applyColor(command, value, label) {
+    const range = restoreSelection();
+    if (!range || range.collapsed) {
+      setStatus('Select text before applying a color.');
+      return;
+    }
+
+    const applied = document.execCommand(command, false, value);
+    if (!applied && command === 'hiliteColor') {
+      document.execCommand('backColor', false, value);
+    }
+    onChange();
+    setStatus(`${label} applied.`);
+  }
+
   // Selection changes are global browser events, but only editor selections are retained.
   document.addEventListener('selectionchange', rememberSelection);
 
-  return { applyFontSize, applyLineHeight };
+  return { applyFontSize, applyLineHeight, applyColor };
 }

@@ -99,11 +99,51 @@
               <button class="toolbar-button" data-command="formatBlock" data-value="h1" type="button">H1</button>
               <button class="toolbar-button" data-command="formatBlock" data-value="h2" type="button">H2</button>
               <button class="toolbar-button" data-command="insertHorizontalRule" type="button">—</button>
+
+              <div class="palette-control">
+                <button class="toolbar-button palette-trigger" data-palette-toggle="text-color-palette" type="button" aria-haspopup="true" aria-expanded="false" title="Text color">
+                  <span class="text-color-icon">A</span>
+                  <span class="sr-only">Text color</span>
+                </button>
+                <div id="text-color-palette" class="color-palette hidden" role="menu" aria-label="Text color choices">
+                  <button class="color-swatch color-swatch-reset" data-color-command="foreColor" data-color-value="inherit" data-color-label="Default text color" type="button" title="Default text color" aria-label="Default text color">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#000000" data-color-label="Black" type="button" title="Black" aria-label="Black" style="--swatch-color: #000000;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#434343" data-color-label="Dark gray" type="button" title="Dark gray" aria-label="Dark gray" style="--swatch-color: #434343;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#666666" data-color-label="Gray" type="button" title="Gray" aria-label="Gray" style="--swatch-color: #666666;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#980000" data-color-label="Dark red" type="button" title="Dark red" aria-label="Dark red" style="--swatch-color: #980000;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#ff0000" data-color-label="Red" type="button" title="Red" aria-label="Red" style="--swatch-color: #ff0000;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#ff9900" data-color-label="Orange" type="button" title="Orange" aria-label="Orange" style="--swatch-color: #ff9900;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#ffff00" data-color-label="Yellow" type="button" title="Yellow" aria-label="Yellow" style="--swatch-color: #d6a700;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#008000" data-color-label="Green" type="button" title="Green" aria-label="Green" style="--swatch-color: #008000;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#00a6a6" data-color-label="Teal" type="button" title="Teal" aria-label="Teal" style="--swatch-color: #00a6a6;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#1155cc" data-color-label="Blue" type="button" title="Blue" aria-label="Blue" style="--swatch-color: #1155cc;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#674ea7" data-color-label="Purple" type="button" title="Purple" aria-label="Purple" style="--swatch-color: #674ea7;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#a61c00" data-color-label="Brown" type="button" title="Brown" aria-label="Brown" style="--swatch-color: #a61c00;">A</button>
+                  <button class="color-swatch" data-color-command="foreColor" data-color-value="#c90076" data-color-label="Pink" type="button" title="Pink" aria-label="Pink" style="--swatch-color: #c90076;">A</button>
+                </div>
+              </div>
+
+              <div class="palette-control">
+                <button class="toolbar-button palette-trigger" data-palette-toggle="highlight-palette" type="button" aria-haspopup="true" aria-expanded="false" title="Highlight color">
+                  <span class="highlight-icon">A</span>
+                  <span class="sr-only">Highlight color</span>
+                </button>
+                <div id="highlight-palette" class="color-palette highlight-palette hidden" role="menu" aria-label="Highlight color choices">
+                  <button class="color-swatch highlight-swatch-reset" data-color-command="hiliteColor" data-color-value="transparent" data-color-label="No highlight" type="button" title="No highlight" aria-label="No highlight">A</button>
+                  <button class="color-swatch" data-color-command="hiliteColor" data-color-value="#fff2cc" data-color-label="Yellow highlight" type="button" title="Yellow highlight" aria-label="Yellow highlight" style="--swatch-color: #fff2cc;">A</button>
+                  <button class="color-swatch" data-color-command="hiliteColor" data-color-value="#fce5cd" data-color-label="Orange highlight" type="button" title="Orange highlight" aria-label="Orange highlight" style="--swatch-color: #fce5cd;">A</button>
+                  <button class="color-swatch" data-color-command="hiliteColor" data-color-value="#d9ead3" data-color-label="Green highlight" type="button" title="Green highlight" aria-label="Green highlight" style="--swatch-color: #d9ead3;">A</button>
+                  <button class="color-swatch" data-color-command="hiliteColor" data-color-value="#d0e0e3" data-color-label="Teal highlight" type="button" title="Teal highlight" aria-label="Teal highlight" style="--swatch-color: #d0e0e3;">A</button>
+                  <button class="color-swatch" data-color-command="hiliteColor" data-color-value="#c9daf8" data-color-label="Blue highlight" type="button" title="Blue highlight" aria-label="Blue highlight" style="--swatch-color: #c9daf8;">A</button>
+                  <button class="color-swatch" data-color-command="hiliteColor" data-color-value="#d9d2e9" data-color-label="Purple highlight" type="button" title="Purple highlight" aria-label="Purple highlight" style="--swatch-color: #d9d2e9;">A</button>
+                  <button class="color-swatch" data-color-command="hiliteColor" data-color-value="#ead1dc" data-color-label="Pink highlight" type="button" title="Pink highlight" aria-label="Pink highlight" style="--swatch-color: #ead1dc;">A</button>
+                </div>
+              </div>
             </div>
 
             <div class="toolbar-group">
               <label>
-                <span>Theme</span>
+                <span>Site theme</span>
                 <select id="theme-select">
                   <option value="violet">Violet</option>
                   <option value="teal">Teal</option>
@@ -111,6 +151,11 @@
                   <option value="rose">Rose</option>
                   <option value="dark">Dark</option>
                 </select>
+              </label>
+
+              <label class="site-background-control">
+                <span>Background</span>
+                <input id="site-background" type="color" value="#f6f4ff" title="Choose site background color" />
               </label>
 
               <label>

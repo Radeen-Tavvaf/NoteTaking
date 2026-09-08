@@ -61,18 +61,12 @@ export function createEditorView({ els, state, getSelectedNote, selectNote, setS
     });
   }
 
-  function applyTheme(theme) {
-    document.body.setAttribute('data-theme', theme);
-    els.themeSelect.value = theme;
-  }
-
   function applyEditorStyles(note) {
     // These are note defaults; selected text can add its own inline typography later.
     if (!note) return;
     els.editor.style.fontFamily = note.fontFamily || 'Inter, sans-serif';
     els.editor.style.fontSize = `${note.fontSize || 18}px`;
     els.editor.style.lineHeight = note.lineHeight || 1.6;
-    applyTheme(note.theme || 'violet');
   }
 
   function updateReadingStats() {
@@ -95,7 +89,6 @@ export function createEditorView({ els, state, getSelectedNote, selectNote, setS
     els.fontSelect.value = note.fontFamily || 'Inter, sans-serif';
     els.fontSize.value = note.fontSize || 18;
     els.lineHeight.value = note.lineHeight || 1.6;
-    els.themeSelect.value = note.theme || 'violet';
     els.pinNote.textContent = note.pinned ? 'Unpin' : 'Pin';
     renderTagList(note.tags);
     applyEditorStyles(note);
@@ -106,7 +99,6 @@ export function createEditorView({ els, state, getSelectedNote, selectNote, setS
   return {
     renderTagList,
     renderNoteList,
-    applyTheme,
     applyEditorStyles,
     updateReadingStats,
     fillEditorFromNote,
