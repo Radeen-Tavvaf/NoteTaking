@@ -11,10 +11,10 @@ To use this app:
 3. Start a local server:
 
 ```bash
-python3 -m http.server 4173
+python3 -m http.server ####
 ```
 
-4. Visit http://localhost:    /.
+4. Visit http://localhost:####/.
 
 **Note:** Opening `index.html` directly may prevent some browser storage features from working correctly, so use the local server.
 
