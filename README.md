@@ -14,7 +14,7 @@ To use this app:
 python3 -m http.server 4173
 ```
 
-4. Visit http://localhost:4173/.
+4. Visit http://localhost:    /.
 
 **Note:** Opening `index.html` directly may prevent some browser storage features from working correctly, so use the local server.
 
